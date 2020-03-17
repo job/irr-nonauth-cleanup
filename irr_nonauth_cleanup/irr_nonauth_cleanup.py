@@ -53,7 +53,8 @@ def main():
 
     parser.add_argument('-i', dest='irr', default="default", type=str,
                         help="""Location of the IRR database
-(default: ftp://ftp.radb.net/radb/dbase/SOMEDATABASE.db.gz)""")
+(default: ./somedatabase.db.gz
+ fetch them from ftp://ftp.radb.net/radb/dbase/)""")
 
     parser.add_argument('--afi', dest='afi', type=str, required=False,
                         default='ipv4', help="""[ ipv4 | ipv6 | mixed ]
@@ -86,7 +87,7 @@ def main():
         validator_export = json.load(open(args.cache, "r"))
 
     if args.irr == "default":
-        irr_url = "ftp://ftp.radb.net/radb/dbase/SOMEDATABASE.db.gz"
+        irr_url = "./somedatabase.db.gz"
     else:
         irr_url = args.irr
 

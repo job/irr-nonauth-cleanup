@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# ARIN Policy Proposal 2018-06 Analyser
+# IRR Policy Proposal 2018-06 Analyser
 #
 # Copyright (C) 2018-2019 Job Snijders <job@ntt.net>
 #
@@ -37,7 +37,7 @@ import json
 import os
 import radix
 import requests
-import arin_nonauth_cleanup
+import irr_nonauth_cleanup
 import sys
 
 
@@ -53,7 +53,7 @@ def main():
 
     parser.add_argument('-i', dest='irr', default="default", type=str,
                         help="""Location of the IRR database
-(default: ftp://ftp.arin.net/pub/rr/arin.db)""")
+(default: ftp://ftp.irr.net/pub/rr/irr.db)""")
 
     parser.add_argument('--afi', dest='afi', type=str, required=False,
                         default='ipv4', help="""[ ipv4 | ipv6 | mixed ]
@@ -70,7 +70,7 @@ def main():
 (default: invalid)""")
 
     parser.add_argument('-v', '--version', action='version',
-                        version='%(prog)s ' + arin_nonauth_cleanup.__version__)
+                        version='%(prog)s ' + irr_nonauth_cleanup.__version__)
 
     args = parser.parse_args()
 
@@ -86,7 +86,7 @@ def main():
         validator_export = json.load(open(args.cache, "r"))
 
     if args.irr == "default":
-        irr_url = "ftp://ftp.arin.net/pub/rr/arin.db"
+        irr_url = "ftp://ftp.irr.net/pub/rr/irr.db"
     else:
         irr_url = args.irr
 
@@ -137,7 +137,7 @@ def main():
         res = validation_state(tree, *route)
 
         if res['state'] == "invalid" and args.state in ["invalid", "all"]:
-            print("INVALID! The %sAS%s ARIN-NONAUTH route object has conflicts:"
+            print("INVALID! The %sAS%s IRR-NONAUTH route object has conflicts:"
                   % route)
             print("")
             for line in irr[route]:
@@ -154,12 +154,12 @@ def main():
             print("")
 
         if res['state'] == "valid" and args.state in ["valid", "all"]:
-            print("OK: ARIN-NONAUTH route object \"%sAS%s\" matches ROA %s, \
+            print("OK: IRR-NONAUTH route object \"%sAS%s\" matches ROA %s, \
 MaxLength %s, Origin AS%s (%s)" % (*route, res['roa']['roa'], res['roa']['maxlen'],
                                   res['roa']['origin'], res['roa']['ta']))
 
         if args.state in ["unknown", "all"]:
-            print("UNKNOWN: ARIN-NONAUTH route object \"%sAS%s\" is not \
+            print("UNKNOWN: IRR-NONAUTH route object \"%sAS%s\" is not \
 covered by any ROAs" % route)
 
 

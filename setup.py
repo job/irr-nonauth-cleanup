@@ -23,8 +23,8 @@
 # ARISING IN ANY WAY OUT OF  THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import arin_nonauth_cleanup
-version = arin_nonauth_cleanup.__version__
+import irr_nonauth_cleanup
+version = irr_nonauth_cleanup.__version__
 
 import codecs
 import os
@@ -55,12 +55,12 @@ install_reqs = parse_requirements('requirements.txt')
 reqs = install_reqs
 
 setup(
-    name='arin-nonauth-cleanup',
+    name='irr-nonauth-cleanup',
     version=version,
     maintainer="Job Snijders",
     maintainer_email='job@ntt.net',
-    url='https://github.com/job/arin-nonauth-cleanup',
-    description='ARIN-NONAUTH Cleanup Analyser',
+    url='https://github.com/job/irr-nonauth-cleanup',
+    description='IRR-NONAUTH Cleanup Analyser',
     long_description=README,
     license='BSD 2-Clause',
     keywords='rpki prefix routing networking',
@@ -74,5 +74,5 @@ setup(
         'Programming Language :: Python :: 3 :: Only'
     ],
     packages=find_packages(exclude=['tests', 'tests.*']),
-    entry_points={'console_scripts': ['arin-nonauth-cleanup = arin_nonauth_cleanup.arin_nonauth_cleanup:main']},
+    entry_points={'console_scripts': ['irr-nonauth-cleanup = irr_nonauth_cleanup.irr_nonauth_cleanup:main']},
 )

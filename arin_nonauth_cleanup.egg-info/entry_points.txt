@@ -1,3 +1,0 @@
-[console_scripts]
-arin-nonauth-cleanup = arin_nonauth_cleanup.arin_nonauth_cleanup:main
-

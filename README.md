@@ -1,20 +1,20 @@
-ARIN-NONAUTH Cleanup Analyser
+IRR-NONAUTH Cleanup Analyser
 =====================================
 
-A simple tool to show what ARIN-NONAUTH objects are affected by
+A simple tool to show what IRR NONAUTH objects are affected by
 RPKI ROAs.
 
 Installation
 ------------
 
-`pip3 install arin-nonauth-cleanup`
+`pip3 install irr-nonauth-cleanup`
 
 Use
 ---
 
-`$ arin-nonauth-cleanup`
+`$ irr-nonauth-cleanup`
 
 Copyright
 ---------
 
-Copyright (c) 2019 Job Snijders <job@ntt.net>
+Copyright (c) 2020 Job Snijders <job@ntt.net>

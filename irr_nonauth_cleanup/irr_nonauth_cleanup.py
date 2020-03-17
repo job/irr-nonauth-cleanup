@@ -137,7 +137,7 @@ def main():
         res = validation_state(tree, *route)
 
         if res['state'] == "invalid" and args.state in ["invalid", "all"]:
-            print("INVALID! The %sAS%s IRR-NONAUTH route object has conflicts:"
+            print("INVALID! IRR route object %sAS%s has conflicts:"
                   % route)
             print("")
             for line in irr[route]:
@@ -154,12 +154,12 @@ def main():
             print("")
 
         if res['state'] == "valid" and args.state in ["valid", "all"]:
-            print("OK: IRR-NONAUTH route object \"%sAS%s\" matches ROA %s, \
+            print("VALID: IRR route object \"%sAS%s\" matches ROA %s, \
 MaxLength %s, Origin AS%s (%s)" % (*route, res['roa']['roa'], res['roa']['maxlen'],
                                   res['roa']['origin'], res['roa']['ta']))
 
         if args.state in ["unknown", "all"]:
-            print("UNKNOWN: IRR-NONAUTH route object \"%sAS%s\" is not \
+            print("NOT-FOUND: IRR route object \"%sAS%s\" is not \
 covered by any ROAs" % route)
 
 

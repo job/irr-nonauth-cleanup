@@ -1,7 +1,7 @@
-IRR-NONAUTH Cleanup Analyser
-=====================================
+IRR Non-Authoritative Object Cleanup Analyser
+=============================================
 
-A simple tool to show what IRR "Non Authoritative" objects are affected by RPKI ROAs.
+A simple tool to show what IRR "Non Authoritative" objects are affected by RPKI ROAs. The motivation behind the tool is to help reduce the amount of RPKI Invalid IRR route objects in the IRR eco-system.
 
 An IRR route object is validated following the Origin Validation procedure as described in [RFC 6811](https://tools.ietf.org/html/rfc6811).
 The input into the procedure is the `route:` object's primary key: the prefix and the ASN value of the `origin:` attribute.

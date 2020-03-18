@@ -66,6 +66,9 @@ def main():
     parser.add_argument('-p', dest='prefix', type=str, default=None,
                         help='Search for specific prefix (and all its more-specifics)')
 
+    parser.add_argument('-r', dest='rpsl', type=str, default=None,
+                        help='Specify IRR override password and present invalids in RPSL format for deletion')
+
     parser.add_argument('-s', dest='state', type=str, default="invalid",
                         help="""RPKI Origin Validation State [ valid | invalid | unknown | all ]
 (default: invalid)""")
@@ -80,7 +83,8 @@ def main():
         sys.exit(2)
 
     if 'http' in args.cache:
-        print("Downloading %s" % args.cache, file=sys.stderr)
+        if not args.rpsl:
+            print("Downloading %s" % args.cache, file=sys.stderr)
         r = requests.get(args.cache, headers={'Accept': 'text/json'})
         validator_export = r.json()
     else:
@@ -92,7 +96,8 @@ def main():
         irr_url = args.irr
 
     if 'ftp' in irr_url:
-        print("Downloading %s" % irr_url, file=sys.stderr)
+        if not args.rpsl:
+            print("Downloading %s" % irr_url, file=sys.stderr)
         r = requests.get(irr_url).content
     else:
         r = open(irr_url, "rb").read()
@@ -134,34 +139,45 @@ def main():
 
     tree = create_vrp_index(args.afi, validator_export, args.asn)
 
+    if args.rpsl:
+        print("override: %s" % args.rpsl)
+        print("")
+
     for route in sorted(irr.keys(), key=lambda x: int(x[1])):
         res = validation_state(tree, *route)
 
         if res['state'] == "invalid" and args.state in ["invalid", "all"]:
-            print("INVALID! IRR route object %sAS%s has conflicts:"
-                  % route)
-            print("")
-            for line in irr[route]:
-                print("    {}".format(line))
-            print("")
-
-            if len(res['roas']) == 1:
-                print("    Above non-authoritative IRR object is in conflict with this ROA:")
+            if args.rpsl:
+                for line in irr[route]:
+                    print(line)
+                print("delete: this object conflicts with all RPKI ROAs")
+                print("")
             else:
-                print("    Above non-authoritative IRR object is in conflict with these ROAs:")
-            for roa in res['roas']:
-                print("        ROA: %s, MaxLength: %s, Origin AS%s (%s)"
-                      % (roa['roa'], roa['maxlen'], roa['origin'], roa['ta']))
-            print("")
+                print("INVALID! IRR route object %sAS%s has conflicts:"
+                    % route)
+                print("")
+                for line in irr[route]:
+                    print("    {}".format(line))
+                print("")
 
-        if res['state'] == "valid" and args.state in ["valid", "all"]:
-            print("VALID: IRR route object \"%sAS%s\" matches ROA %s, \
-MaxLength %s, Origin AS%s (%s)" % (*route, res['roa']['roa'], res['roa']['maxlen'],
-                                  res['roa']['origin'], res['roa']['ta']))
+                if len(res['roas']) == 1:
+                    print("    Above non-authoritative IRR object is in conflict with this ROA:")
+                else:
+                    print("    Above non-authoritative IRR object is in conflict with these ROAs:")
+                for roa in res['roas']:
+                    print("        ROA: %s, MaxLength: %s, Origin AS%s (%s)"
+                        % (roa['roa'], roa['maxlen'], roa['origin'], roa['ta']))
+                print("")
 
-        if args.state in ["unknown", "all"]:
-            print("NOT-FOUND: IRR route object \"%sAS%s\" is not \
-covered by any ROAs" % route)
+        if not args.rpsl:
+            if res['state'] == "valid" and args.state in ["valid", "all"]:
+                print("VALID: IRR route object \"%sAS%s\" matches ROA %s, \
+    MaxLength %s, Origin AS%s (%s)" % (*route, res['roa']['roa'], res['roa']['maxlen'],
+                                    res['roa']['origin'], res['roa']['ta']))
+
+            if args.state in ["unknown", "all"]:
+                print("NOT-FOUND: IRR route object \"%sAS%s\" is not \
+    covered by any ROAs" % route)
 
 
 def create_vrp_index(afi, export, search_asn):

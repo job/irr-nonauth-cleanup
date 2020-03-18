@@ -18,7 +18,7 @@ Use
 
 `$ irr-nonauth-cleanup -i ./somedatabase.db.gz`
 
-You can download an assortment of IRR databases from the [RADB](ftp://ftp.radb.net/radb/dbase/) public IRR mirror service.
+You can download an assortment of IRR databases from the [RADB](http://radb.net) `ftp://ftp.radb.net/radb/dbase/` public IRR mirror service.
 
 If add `-r YOUR_IRRd_OVERRIDE_PW` as command line arguments, the program will output data in a way that can be piped straight into an email to Legacy IRRd daemons.
 

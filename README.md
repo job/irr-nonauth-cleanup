@@ -20,6 +20,8 @@ Use
 
 You can download an assortment of IRR databases from [RADB](ftp://ftp.radb.net/radb/dbase/)'s public IRR mirror service.
 
+If add `-r YOUR_IRRd_OVERRIDE_PW` as command line arguments, the program will output data in a way that can be piped straight into an email to Legacy IRRd daemons.
+
 Example output
 --------------
 

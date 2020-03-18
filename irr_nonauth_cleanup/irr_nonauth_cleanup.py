@@ -138,10 +138,6 @@ def main():
 
     tree = create_vrp_index(args.afi, validator_export, args.asn)
 
-    if args.rpsl:
-        print("override: %s" % args.rpsl)
-        print("")
-
     for route in sorted(irr.keys(), key=lambda x: int(x[1])):
         res = validation_state(tree, *route)
 
@@ -150,6 +146,7 @@ def main():
                 for line in irr[route]:
                     print(line)
                 print("delete: this object conflicts with all RPKI ROAs")
+                print("override: %s" % args.rpsl)
                 print("")
             else:
                 print("INVALID! IRR route object %sAS%s has conflicts:"

@@ -51,10 +51,9 @@ def main():
                         help="""Location of the RPKI Cache in JSON format
 (default: https://rpki.gin.ntt.net/api/export.json)""")
 
-    parser.add_argument('-i', dest='irr', default="default", type=str,
-                        help="""Location of the IRR database
-(default: ./somedatabase.db.gz
- fetch them from ftp://ftp.radb.net/radb/dbase/)""")
+    parser.add_argument('-i', dest='irr', type=str, required=True,
+                        help="""Location of the IRR database file
+(fetch a .db.gz file from ftp://ftp.radb.net/radb/dbase/)""")
 
     parser.add_argument('--afi', dest='afi', type=str, required=False,
                         default='ipv4', help="""[ ipv4 | ipv6 | mixed ]

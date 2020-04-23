@@ -22,6 +22,27 @@ You can download an assortment of IRR databases from the [RADB](http://radb.net)
 
 If add `-r YOUR_IRRd_OVERRIDE_PW` as command line arguments, the program will output data in a way that can be piped straight into an email to Legacy IRRd daemons.
 
+```
+hanna:~ job$ irr-nonauth-cleanup --help
+usage: irr-nonauth-cleanup [-h] [-c CACHE] -i IRR [--afi AFI] [-a ASN]
+                           [-p PREFIX] [-r RPSL] [-s STATE] [-v]
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -c CACHE       Location of the RPKI Cache in JSON format
+                 (default: https://rpki.gin.ntt.net/api/export.json)
+  -i IRR         Location of the IRR database file
+                 (fetch a .db.gz file from ftp://ftp.radb.net/radb/dbase/)
+  --afi AFI      [ ipv4 | ipv6 | mixed ]
+                 (default: mixed
+  -a ASN         Limit searching to this ROA Origin ASN
+  -p PREFIX      Search for specific prefix (and all its more-specifics)
+  -r RPSL        Specify IRR override password and present invalids in RPSL format for deletion
+  -s STATE       RPKI Origin Validation State [ valid | invalid | unknown | all ]
+                 (default: invalid)
+  -v, --version  show program's version number and exit
+```
+
 Example output
 --------------
 

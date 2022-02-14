@@ -39,7 +39,7 @@ import radix
 import requests
 import irr_nonauth_cleanup
 import sys
-
+import re
 
 def main():
     parser = argparse.ArgumentParser(
@@ -128,7 +128,8 @@ def main():
             if line.startswith("route:") or line.startswith("route6:"):
                 prefix = line.split()[1]
             if line.startswith("origin:"):
-                origin = int(line.split()[1][2:])
+                originasn = re.search(r"(\d+)", line)
+                origin = int(originasn.group(1))
         if prefix and origin:
             if args.prefix:
                 if ip_network(args.prefix).overlaps(ip_network(prefix)):
@@ -199,7 +200,7 @@ def create_vrp_index(afi, export, search_asn):
                 continue
 
         try:
-            asn = int(roa['asn'].replace("AS", ""))
+            asn = int(roa['asn']) 
             if not 0 <= asn < 4294967296:
                 raise ValueError
         except ValueError:
